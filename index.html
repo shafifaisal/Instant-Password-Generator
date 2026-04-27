@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Password Generator Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['"Segoe UI"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+            },
+            boxShadow: {
+              glow: '0 30px 80px rgba(15, 23, 42, 0.16)',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      :root {
+        color-scheme: light;
+      }
+
+      body {
+        background:
+          radial-gradient(circle at top left, rgba(125, 211, 252, 0.3), transparent 30%),
+          radial-gradient(circle at top right, rgba(251, 191, 36, 0.18), transparent 28%),
+          linear-gradient(180deg, #f8fafc 0%, #eef2ff 45%, #f8fafc 100%);
+      }
+
+      input[type='range']::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        height: 1.2rem;
+        width: 1.2rem;
+        border-radius: 9999px;
+        background: #0f172a;
+        border: 3px solid #ffffff;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+        cursor: pointer;
+      }
+
+      input[type='range']::-moz-range-thumb {
+        height: 1.2rem;
+        width: 1.2rem;
+        border-radius: 9999px;
+        background: #0f172a;
+        border: 3px solid #ffffff;
+        box-shadow: 0 4px 14px rgba(15, 23, 42, 0.2);
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-900 antialiased selection:bg-sky-200 selection:text-slate-900">
+    <main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6">
+      <section
+        class="w-full max-w-5xl overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-glow backdrop-blur-xl"
+        aria-labelledby="pageTitle"
+      >
+        <div class="grid lg:grid-cols-[2fr_1fr]">
+          <div class="border-b border-slate-200/70 p-6 sm:p-8 lg:border-b-0 lg:border-r">
+            <div class="mb-8 flex items-start justify-between gap-4">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.4em] text-sky-700">Password Generator</p>
+                <h1 id="pageTitle" class="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
+                  Create a secure password in seconds
+                </h1>
+                <p class="mt-3 max-w-2xl text-sm leading-6 text-slate-600 sm:text-base">
+                  Fine-tune length and character rules, then copy a strong password generated with the Web Crypto API.
+                </p>
+              </div>
+              <div class="hidden rounded-2xl border border-sky-100 bg-sky-50 px-4 py-3 text-right sm:block">
+                <p class="text-xs font-semibold uppercase tracking-[0.3em] text-sky-700">Entropy</p>
+                <p id="entropyText" class="mt-1 text-2xl font-semibold text-slate-900">0 bits</p>
+              </div>
+            </div>
+
+            <div class="rounded-3xl bg-slate-950 p-4 text-white shadow-2xl shadow-slate-900/20 sm:p-5">
+              <label for="passwordOutput" class="text-sm font-medium text-slate-300">Generated password</label>
+              <div class="mt-3 flex flex-col gap-3 sm:flex-row">
+                <div class="relative flex-1">
+                  <input
+                    id="passwordOutput"
+                    type="password"
+                    readonly
+                    spellcheck="false"
+                    aria-live="polite"
+                    class="w-full rounded-2xl border border-white/10 bg-white/10 px-4 py-4 pr-24 font-mono text-lg tracking-[0.14em] text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300 focus:ring-2 focus:ring-sky-300/40"
+                  />
+                  <button
+                    id="toggleVisibility"
+                    type="button"
+                    aria-pressed="false"
+                    class="absolute right-3 top-1/2 -translate-y-1/2 rounded-full border border-white/15 bg-white/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-200 transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-sky-300/50"
+                  >
+                    Show
+                  </button>
+                </div>
+                <div class="grid grid-cols-2 gap-3 sm:w-auto">
+                  <button
+                    id="copyButton"
+                    type="button"
+                    class="rounded-2xl bg-sky-400 px-4 py-4 text-sm font-semibold text-slate-950 transition hover:bg-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  >
+                    Copy
+                  </button>
+                  <button
+                    id="regenButton"
+                    type="button"
+                    class="rounded-2xl border border-white/15 bg-white/10 px-4 py-4 text-sm font-semibold text-white transition hover:bg-white/20 focus:outline-none focus:ring-2 focus:ring-sky-200"
+                  >
+                    Regenerate
+                  </button>
+                </div>
+              </div>
+              <p id="copyFeedback" class="mt-3 min-h-6 text-sm text-slate-300" aria-live="polite">
+                Ready to generate and copy.
+              </p>
+            </div>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-2">
+              <div class="rounded-3xl border border-slate-200 bg-white/85 p-5">
+                <div class="flex items-center justify-between gap-3">
+                  <div>
+                    <label for="lengthSlider" class="text-sm font-semibold text-slate-800">
+                      Password length
+                    </label>
+                    <p class="mt-1 text-sm text-slate-500">Choose between 6 and 50 characters.</p>
+                  </div>
+                  <div class="rounded-2xl bg-slate-100 px-3 py-2 text-lg font-semibold text-slate-900">
+                    <span id="lengthValue">20</span>
+                  </div>
+                </div>
+                <input
+                  id="lengthSlider"
+                  type="range"
+                  min="6"
+                  max="50"
+                  value="20"
+                  class="mt-5 h-2 w-full cursor-pointer appearance-none rounded-full bg-slate-200"
+                />
+              </div>
+
+              <div class="rounded-3xl border border-slate-200 bg-white/85 p-5">
+                <div class="flex items-center justify-between gap-4">
+                  <div>
+                    <p class="text-sm font-semibold text-slate-800">Strength</p>
+                    <p id="strengthText" class="mt-1 text-sm text-slate-500">Strong</p>
+                  </div>
+                  <span
+                    id="strengthBadge"
+                    class="rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700"
+                  >
+                    Strong
+                  </span>
+                </div>
+                <div class="mt-4 h-3 overflow-hidden rounded-full bg-slate-200" aria-hidden="true">
+                  <div id="strengthBar" class="h-full w-full rounded-full bg-emerald-500 transition-all duration-300"></div>
+                </div>
+                <p id="strengthHint" class="mt-3 text-sm text-slate-500">
+                  Long passwords with multiple character types score highest.
+                </p>
+              </div>
+            </div>
+
+            <div class="mt-6 rounded-3xl border border-slate-200 bg-white/85 p-6">
+              <div class="mb-4 flex items-center justify-between gap-4">
+                <div>
+                  <h2 class="text-lg font-semibold text-slate-900">Customize your password</h2>
+                  <p class="mt-1 text-sm text-slate-500">Changes apply instantly and your last settings are remembered.</p>
+                </div>
+                <div class="rounded-2xl bg-slate-100 px-3 py-2 text-sm font-medium text-slate-600 sm:hidden">
+                  <span id="entropyTextMobile">0 bits</span>
+                </div>
+              </div>
+
+              <fieldset class="grid gap-3 sm:grid-cols-2" aria-describedby="optionsHelp">
+                <legend class="sr-only">Password options</legend>
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="upperCase" type="checkbox" checked class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Uppercase letters</span>
+                    <span class="block text-xs text-slate-500">A-Z</span>
+                  </div>
+                </label>
+
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="lowerCase" type="checkbox" checked class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Lowercase letters</span>
+                    <span class="block text-xs text-slate-500">a-z</span>
+                  </div>
+                </label>
+
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="numbers" type="checkbox" checked class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Numbers</span>
+                    <span class="block text-xs text-slate-500">0-9</span>
+                  </div>
+                </label>
+
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="symbols" type="checkbox" checked class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Symbols</span>
+                    <span class="block text-xs text-slate-500">!@#$%^&*</span>
+                  </div>
+                </label>
+
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="excludeSimilar" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Exclude similar characters</span>
+                    <span class="block text-xs text-slate-500">Removes i, l, 1, O, 0 and similar lookalikes.</span>
+                  </div>
+                </label>
+
+                <label class="group flex cursor-pointer items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-sky-200 hover:bg-sky-50/60 focus-within:border-sky-400">
+                  <input id="excludeAmbiguous" type="checkbox" class="h-5 w-5 rounded border-slate-300 text-sky-600 focus:ring-sky-500" />
+                  <div>
+                    <span class="block text-sm font-semibold text-slate-800">Avoid ambiguous characters</span>
+                    <span class="block text-xs text-slate-500">Filters punctuation that can be confusing in some contexts.</span>
+                  </div>
+                </label>
+              </fieldset>
+
+              <p id="optionsHelp" class="mt-4 text-sm text-slate-500">
+                At least one character type stays enabled so the generator always works.
+              </p>
+            </div>
+          </div>
+
+          <aside class="bg-slate-900 p-6 text-slate-100 sm:p-8">
+            <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+              <p class="text-xs font-semibold uppercase tracking-[0.35em] text-sky-300">Security Tips</p>
+              <h2 class="mt-3 text-2xl font-semibold tracking-tight">What makes a password strong?</h2>
+              <div class="mt-5 space-y-4 text-sm leading-6 text-slate-300">
+                <p>Length matters most. A 20+ character password is harder to brute force than a short complex one.</p>
+                <p>Mixing uppercase, lowercase, numbers, and symbols increases the search space and raises entropy.</p>
+                <p>Use unique passwords for every account, especially email, banking, and admin access.</p>
+              </div>
+            </div>
+
+            <div class="mt-6 grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-white">Realtime generation</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Every change updates the password instantly, so you can compare options without extra clicks.</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-white">Clipboard ready</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Copy with one button and keep keyboard navigation smooth with visible focus styles.</p>
+              </div>
+              <div class="rounded-3xl border border-white/10 bg-white/5 p-5">
+                <p class="text-sm font-semibold text-white">Local preferences</p>
+                <p class="mt-2 text-sm leading-6 text-slate-300">Your last-used settings stay in localStorage, so the tool feels consistent on repeat visits.</p>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const STORAGE_KEY = 'password-generator-settings';
+
+      const elements = {
+        passwordOutput: document.getElementById('passwordOutput'),
+        copyButton: document.getElementById('copyButton'),
+        regenButton: document.getElementById('regenButton'),
+        toggleVisibility: document.getElementById('toggleVisibility'),
+        copyFeedback: document.getElementById('copyFeedback'),
+        lengthSlider: document.getElementById('lengthSlider'),
+        lengthValue: document.getElementById('lengthValue'),
+        strengthText: document.getElementById('strengthText'),
+        strengthBadge: document.getElementById('strengthBadge'),
+        strengthBar: document.getElementById('strengthBar'),
+        strengthHint: document.getElementById('strengthHint'),
+        entropyText: document.getElementById('entropyText'),
+        entropyTextMobile: document.getElementById('entropyTextMobile'),
+        optionsHelp: document.getElementById('optionsHelp'),
+      };
+
+      const toggles = {
+        upperCase: document.getElementById('upperCase'),
+        lowerCase: document.getElementById('lowerCase'),
+        numbers: document.getElementById('numbers'),
+        symbols: document.getElementById('symbols'),
+        excludeSimilar: document.getElementById('excludeSimilar'),
+        excludeAmbiguous: document.getElementById('excludeAmbiguous'),
+      };
+
+      const BASE_CHARSETS = {
+        upperCase: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+        lowerCase: 'abcdefghijklmnopqrstuvwxyz',
+        numbers: '0123456789',
+        symbols: '!@#$%^&*',
+      };
+
+      const SIMILAR_CHARS = new Set(['i', 'I', 'l', '1', 'L', 'o', 'O', '0']);
+      const AMBIGUOUS_CHARS = new Set(['{', '}', '[', ']', '(', ')', '/', '\\', '\'', '"', '`', ',', ';', ':', '.', '<', '>']);
+
+      function uniqueCharacters(value) {
+        return [...new Set(value.split(''))].join('');
+      }
+
+      function filterCharacters(value) {
+        return value
+          .split('')
+          .filter((char) => {
+            if (toggles.excludeSimilar.checked && SIMILAR_CHARS.has(char)) {
+              return false;
+            }
+
+            if (toggles.excludeAmbiguous.checked && AMBIGUOUS_CHARS.has(char)) {
+              return false;
+            }
+
+            return true;
+          })
+          .join('');
+      }
+
+      function getSelectedCategories() {
+        return Object.keys(BASE_CHARSETS).filter((key) => toggles[key].checked);
+      }
+
+      function getActivePools() {
+        const categories = getSelectedCategories();
+
+        if (!categories.length) {
+          toggles.lowerCase.checked = true;
+          categories.push('lowerCase');
+        }
+
+        return categories
+          .map((key) => ({
+            key,
+            chars: filterCharacters(BASE_CHARSETS[key]),
+          }))
+          .filter((group) => group.chars.length > 0);
+      }
+
+      function normalizeSelections() {
+        let activePools = getActivePools();
+
+        // If filters empty every chosen pool, fall back to lowercase letters.
+        if (!activePools.length) {
+          toggles.upperCase.checked = false;
+          toggles.lowerCase.checked = true;
+          toggles.numbers.checked = false;
+          toggles.symbols.checked = false;
+          toggles.excludeSimilar.checked = false;
+          toggles.excludeAmbiguous.checked = false;
+          activePools = getActivePools();
+          elements.optionsHelp.textContent = 'Some filters removed every character option, so safe defaults were restored.';
+        } else {
+          elements.optionsHelp.textContent = 'At least one character type stays enabled so the generator always works.';
+        }
+
+        return activePools;
+      }
+
+      function getRandomInt(max) {
+        if (max <= 0) {
+          throw new Error('max must be greater than 0');
+        }
+
+        const limit = Math.floor(0x100000000 / max) * max;
+        const values = new Uint32Array(1);
+
+        do {
+          crypto.getRandomValues(values);
+        } while (values[0] >= limit);
+
+        return values[0] % max;
+      }
+
+      function pickRandomChar(pool) {
+        return pool[getRandomInt(pool.length)];
+      }
+
+      function shuffleCharacters(characters) {
+        const shuffled = [...characters];
+
+        for (let index = shuffled.length - 1; index > 0; index -= 1) {
+          const swapIndex = getRandomInt(index + 1);
+          [shuffled[index], shuffled[swapIndex]] = [shuffled[swapIndex], shuffled[index]];
+        }
+
+        return shuffled.join('');
+      }
+
+      function buildPassword(length, activePools) {
+        const combinedPool = uniqueCharacters(activePools.map((group) => group.chars).join(''));
+        const requiredChars = activePools.map((group) => pickRandomChar(group.chars));
+        const result = [...requiredChars];
+
+        while (result.length < length) {
+          result.push(pickRandomChar(combinedPool));
+        }
+
+        return {
+          password: shuffleCharacters(result),
+          poolSize: combinedPool.length,
+          categoryCount: activePools.length,
+        };
+      }
+
+      function calculateEntropy(length, poolSize) {
+        if (!poolSize) {
+          return 0;
+        }
+
+        return Math.round(length * Math.log2(poolSize));
+      }
+
+      function evaluateStrength(length, categoryCount, entropy) {
+        if (length < 10 || categoryCount <= 1 || entropy < 45) {
+          return {
+            label: 'Weak',
+            barClass: 'w-1/3 bg-rose-500',
+            badgeClass: 'bg-rose-100 text-rose-700',
+            hint: 'Increase length and add more character types for better resistance.',
+          };
+        }
+
+        if (length < 16 || categoryCount <= 2 || entropy < 75) {
+          return {
+            label: 'Medium',
+            barClass: 'w-2/3 bg-amber-400',
+            badgeClass: 'bg-amber-100 text-amber-700',
+            hint: 'Solid for everyday use, but more length and variety would make it stronger.',
+          };
+        }
+
+        return {
+          label: 'Strong',
+          barClass: 'w-full bg-emerald-500',
+          badgeClass: 'bg-emerald-100 text-emerald-700',
+          hint: 'Strong length and variety give this password a healthy search space.',
+        };
+      }
+
+      function updateLengthLabel() {
+        elements.lengthValue.textContent = elements.lengthSlider.value;
+      }
+
+      function updateStrengthUi(length, categoryCount, poolSize) {
+        const entropy = calculateEntropy(length, poolSize);
+        const strength = evaluateStrength(length, categoryCount, entropy);
+
+        elements.strengthText.textContent = `${strength.label} password`;
+        elements.strengthBadge.textContent = strength.label;
+        elements.strengthBadge.className = `rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] ${strength.badgeClass}`;
+        elements.strengthBar.className = `h-full rounded-full transition-all duration-300 ${strength.barClass}`;
+        elements.strengthHint.textContent = strength.hint;
+        elements.entropyText.textContent = `${entropy} bits`;
+        elements.entropyTextMobile.textContent = `${entropy} bits`;
+      }
+
+      function saveSettings() {
+        const settings = {
+          length: Number(elements.lengthSlider.value),
+          visible: elements.passwordOutput.type === 'text',
+          upperCase: toggles.upperCase.checked,
+          lowerCase: toggles.lowerCase.checked,
+          numbers: toggles.numbers.checked,
+          symbols: toggles.symbols.checked,
+          excludeSimilar: toggles.excludeSimilar.checked,
+          excludeAmbiguous: toggles.excludeAmbiguous.checked,
+        };
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+      }
+
+      function loadSettings() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+
+          if (typeof saved.length === 'number') {
+            elements.lengthSlider.value = String(Math.min(50, Math.max(6, saved.length)));
+          }
+
+          Object.keys(toggles).forEach((key) => {
+            if (typeof saved[key] === 'boolean') {
+              toggles[key].checked = saved[key];
+            }
+          });
+
+          if (saved.visible) {
+            elements.passwordOutput.type = 'text';
+            elements.toggleVisibility.textContent = 'Hide';
+            elements.toggleVisibility.setAttribute('aria-pressed', 'true');
+          }
+        } catch (error) {
+          console.warn('Unable to load saved settings.', error);
+        }
+      }
+
+      function generatePassword() {
+        const activePools = normalizeSelections();
+        const length = Number(elements.lengthSlider.value);
+        const { password, poolSize, categoryCount } = buildPassword(length, activePools);
+
+        elements.passwordOutput.value = password;
+        updateLengthLabel();
+        updateStrengthUi(length, categoryCount, poolSize);
+        saveSettings();
+      }
+
+      async function copyPassword() {
+        try {
+          await navigator.clipboard.writeText(elements.passwordOutput.value);
+          elements.copyButton.textContent = 'Copied';
+          elements.copyFeedback.textContent = 'Password copied to clipboard.';
+        } catch (error) {
+          elements.copyFeedback.textContent = 'Clipboard access failed. Select the password and copy it manually.';
+        }
+
+        window.setTimeout(() => {
+          elements.copyButton.textContent = 'Copy';
+        }, 1400);
+      }
+
+      function togglePasswordVisibility() {
+        const showing = elements.passwordOutput.type === 'text';
+        elements.passwordOutput.type = showing ? 'password' : 'text';
+        elements.toggleVisibility.textContent = showing ? 'Show' : 'Hide';
+        elements.toggleVisibility.setAttribute('aria-pressed', String(!showing));
+        saveSettings();
+      }
+
+      function attachEvents() {
+        elements.lengthSlider.addEventListener('input', generatePassword);
+        elements.regenButton.addEventListener('click', generatePassword);
+        elements.copyButton.addEventListener('click', copyPassword);
+        elements.toggleVisibility.addEventListener('click', togglePasswordVisibility);
+
+        Object.values(toggles).forEach((input) => {
+          input.addEventListener('change', generatePassword);
+        });
+      }
+
+      loadSettings();
+      attachEvents();
+      generatePassword();
+    </script>
+  </body>
+</html>
