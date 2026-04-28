@@ -67,6 +67,7 @@
     </script>
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
             fontFamily: {
@@ -81,7 +82,11 @@
     </script>
     <style>
       :root {
-        color-scheme: light;
+        color-scheme: light dark;
+      }
+
+      html {
+        transition: background-color 0.3s ease, color 0.3s ease;
       }
 
       body {
@@ -89,27 +94,41 @@
           radial-gradient(circle at top left, rgba(125, 211, 252, 0.3), transparent 30%),
           radial-gradient(circle at top right, rgba(251, 191, 36, 0.18), transparent 28%),
           linear-gradient(180deg, #f8fafc 0%, #eef2ff 45%, #f8fafc 100%);
+        transition: background 0.3s ease, color 0.3s ease;
+      }
+
+      .dark body {
+        background:
+          radial-gradient(circle at top left, rgba(56, 189, 248, 0.12), transparent 30%),
+          radial-gradient(circle at top right, rgba(251, 191, 36, 0.08), transparent 28%),
+          linear-gradient(180deg, #0f172a 0%, #1e293b 45%, #0f172a 100%);
       }
     </style>
   </head>
-  <body class="min-h-screen text-slate-900 antialiased selection:bg-sky-200 selection:text-slate-900">
-    <header class="sticky top-0 z-10 w-full bg-white/75 backdrop-blur-xl border-b border-white/70 shadow-sm">
+  <body class="min-h-screen text-slate-900 antialiased selection:bg-sky-200 selection:text-slate-900 transition-colors duration-300">
+    <header class="sticky top-0 z-10 w-full bg-white/75 dark:bg-slate-900/80 backdrop-blur-xl border-b border-white/70 dark:border-slate-700/70 shadow-sm transition-colors duration-300">
       <div class="max-w-12xl mx-auto px-4 py-4 sm:px-6">
         <div class="flex items-center justify-between">
           <nav class="flex items-center gap-6">
-            <a href="index.html" class="flex items-center gap-2 text-2xl font-medium text-slate-700 hover:text-sky-600 transition">
+            <a href="index.html" class="flex items-center gap-2 text-2xl font-medium text-slate-700 dark:text-slate-200 hover:text-sky-600 dark:hover:text-sky-400 transition">
             <img src="favicon.png" alt="Logo" class="w-8 h-8 object-contain rounded"><span>iPassGenerator</span></a>
           </nav>
-          <div class="hidden sm:block">
-            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-sky-700">Secure & Instant</p>
+          <div class="flex items-center gap-4">
+            <div class="hidden sm:block">
+              <p class="text-xs font-semibold uppercase tracking-[0.4em] text-sky-700 dark:text-sky-400">Secure & Instant</p>
+            </div>
+            <button id="theme-toggle" type="button" aria-pressed="false" aria-label="Toggle dark mode" class="rounded-full border border-slate-200 dark:border-slate-600 bg-white/60 dark:bg-slate-800/60 p-2 text-slate-600 dark:text-slate-300 shadow-sm transition hover:bg-white dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-400/50">
+              <i class="fa-solid fa-sun theme-icon-sun hidden text-lg"></i>
+              <i class="fa-solid fa-moon theme-icon-moon text-lg"></i>
+            </button>
           </div>
         </div>
       </div>
     </header>
     <main class="flex justify-center px-4 py-8 sm:px-6">
-      <section class="w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200 bg-white/85 shadow-glow p-6 sm:p-8">
-        <h1 class="text-3xl font-semibold tracking-tight text-slate-900">About Us</h1>
-        <div class="mt-6 space-y-5 text-[1.02rem] leading-7 text-slate-600">
+      <section class="w-full max-w-4xl overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white/85 dark:bg-slate-800/85 shadow-glow p-6 sm:p-8 transition-colors duration-300">
+        <h1 class="text-3xl font-semibold tracking-tight text-slate-900 dark:text-slate-100">About Us</h1>
+        <div class="mt-6 space-y-5 text-[1.02rem] leading-7 text-slate-600 dark:text-slate-300">
           <p>Welcome to iPassGenerator! We are a team of passionate developers dedicated to providing secure and reliable password generation tools.</p>
           <p>Our mission is to empower users with the ability to create strong, unique passwords that protect their online accounts from unauthorized access.</p>
           <p>With a focus on privacy and security, we ensure that your data remains confidential and that our tools meet the highest standards of functionality and usability.</p>
@@ -117,25 +136,20 @@
       </section>
     </main>
 
-     <footer class="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/80 py-4 z-50">
-  <div class="max-w-12xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-600">
-    
-    <!-- Left Column -->
-    <div class="mb-2 md:mb-0 text-center md:text-left">
-      © 2026 iPassGenerator. Secure passwords made simple.
-    </div>
-
-    <!-- Right Column -->
-    <div class="flex flex-wrap justify-center md:justify-end gap-4">
-      <a href="about.html" class="hover:text-sky-600 transition">About Us</a>
-      <a href="contact.html" class="hover:text-sky-600 transition">Contact Us</a>
-      <a href="privacy-policy.html" class="hover:text-sky-600 transition">Privacy Policy</a>
-      <a href="terms.html" class="hover:text-sky-600 transition">Terms & Conditions</a>
-    </div>
-
-  </div>
-</footer>
-
-
+    <footer class="absolute bottom-0 left-0 right-0 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 py-4 z-50 transition-colors duration-300">
+      <div class="max-w-12xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-600 dark:text-slate-400">
+        <div class="mb-2 md:mb-0 text-center md:text-left">
+          © 2026 iPassGenerator. Secure passwords made simple.
+        </div>
+        <div class="flex flex-wrap justify-center md:justify-end gap-4">
+          <a href="about.html" class="hover:text-sky-600 dark:hover:text-sky-400 transition">About Us</a>
+          <a href="contact.html" class="hover:text-sky-600 dark:hover:text-sky-400 transition">Contact Us</a>
+          <a href="privacy-policy.html" class="hover:text-sky-600 dark:hover:text-sky-400 transition">Privacy Policy</a>
+          <a href="terms.html" class="hover:text-sky-600 dark:hover:text-sky-400 transition">Terms & Conditions</a>
+        </div>
+      </div>
+    </footer>
+    <script src="theme.js"></script>
   </body>
 </html>
+

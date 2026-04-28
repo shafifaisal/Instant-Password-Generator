@@ -104,3 +104,17 @@ Avoid using personal information or common patterns, as they are easier to guess
   <li>🌙 Dark mode UI</li>
   <li>🧠 Passphrase generator</li>
 </ul>
+
+<hr/>
+
+<h2>Contributing</h2>
+<p>
+Contributions are welcome! Feel free to fork the repository and submit a pull request.
+</p>
+
+<hr/>
+
+<h2>License</h2>
+<p>
+This project is open-source and available under the MIT License.
+</p>
