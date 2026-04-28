@@ -116,9 +116,27 @@
     </style>
   </head>
   <body class="min-h-screen text-slate-900 antialiased selection:bg-sky-200 selection:text-slate-900">
+    <header class="sticky top-0 z-10 w-full bg-white/75 backdrop-blur-xl border-b border-white/70 shadow-sm">
+      <div class="max-w-12xl mx-auto px-4 py-4 sm:px-6">
+        <div class="flex items-center justify-between">
+          <nav class="flex items-center gap-6">
+            <a href="index.html" class="text-2xl font-medium self-center text-slate-700 hover:text-sky-600 transition">iPassGenerator</a>
+            <div class="hidden md:flex items-center mt-2 gap-4 text-sky-700">              
+              <a href="about.html" class="text-sm font-medium self-center text-slate-700 hover:text-sky-600 transition">About Us</a>
+              <a href="contact.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Contact Us</a>
+              <a href="privacy-policy.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Privacy Policy</a>
+              <a href="terms.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Terms</a>
+            </div>
+          </nav>
+          <div class="hidden sm:block">
+            <p class="text-xs font-semibold uppercase tracking-[0.4em] text-sky-700">Secure & Instant</p>
+          </div>
+        </div>
+      </div>
+    </header>
     <main class="flex min-h-screen items-center justify-center px-4 py-8 sm:px-6">
       <section
-        class="w-full max-w-5xl overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-glow backdrop-blur-xl"
+        class="w-full max-w-6xl overflow-hidden rounded-3xl border border-white/70 bg-white/75 shadow-glow backdrop-blur-xl"
         aria-labelledby="pageTitle"
       >
         <div class="grid lg:grid-cols-[2fr_1fr]">
@@ -324,6 +342,12 @@
         </div>
       </section>
     </main>
+
+    <footer class="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/80 py-4 z-50">
+      <div class="max-w-12xl mx-auto px-4 text-center text-sm text-slate-600 sm:px-6">
+        © 2026 iPassGenerator. Secure passwords made simple.
+      </div>
+    </footer>
 
     <script>
       const STORAGE_KEY = 'password-generator-settings';
