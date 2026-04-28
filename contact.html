@@ -99,12 +99,6 @@
           <nav class="flex items-center gap-6">
             <a href="index.html" class="flex items-center gap-2 text-2xl font-medium text-slate-700 hover:text-sky-600 transition">
             <img src="favicon.png" alt="Logo" class="w-8 h-8 object-contain rounded"><span>iPassGenerator</span></a>
-            <div class="hidden md:flex items-center mt-2 gap-4 text-sky-700">              
-              <a href="about.html" class="text-sm font-medium self-center text-slate-700 hover:text-sky-600 transition">About Us</a>
-              <a href="contact.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Contact Us</a>
-              <a href="privacy-policy.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Privacy Policy</a>
-              <a href="terms.html" class="text-sm font-medium text-slate-700 hover:text-sky-600 transition">Terms</a>
-            </div>
           </nav>
           <div class="hidden sm:block">
             <p class="text-xs font-semibold uppercase tracking-[0.4em] text-sky-700">Secure & Instant</p>
@@ -124,10 +118,24 @@
       </section>
     </main>
 
-    <footer class="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/80 py-4 z-50">
-      <div class="max-w-12xl mx-auto px-4 text-center text-sm text-slate-600 sm:px-6">
-        © 2026 iPassGenerator. Secure passwords made simple.
-      </div>
-    </footer>
+     <footer class="fixed bottom-0 left-0 right-0 border-t border-slate-200 bg-white/80 py-4 z-50">
+  <div class="max-w-12xl mx-auto px-4 sm:px-6 flex flex-col md:flex-row items-center justify-between text-sm text-slate-600">
+    
+    <!-- Left Column -->
+    <div class="mb-2 md:mb-0 text-center md:text-left">
+      © 2026 iPassGenerator. Secure passwords made simple.
+    </div>
+
+    <!-- Right Column -->
+    <div class="flex flex-wrap justify-center md:justify-end gap-4">
+      <a href="about.html" class="hover:text-sky-600 transition">About Us</a>
+      <a href="contact.html" class="hover:text-sky-600 transition">Contact Us</a>
+      <a href="privacy-policy.html" class="hover:text-sky-600 transition">Privacy Policy</a>
+      <a href="terms.html" class="hover:text-sky-600 transition">Terms & Conditions</a>
+    </div>
+
+  </div>
+</footer>
+    
   </body>
 </html>
