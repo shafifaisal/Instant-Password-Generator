@@ -1,0 +1,72 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "iPassGenerator",
+      "url": "https://ipassgenerator.com",
+      "description": "Free online secure password generator tool for creating strong, random passwords with customizable options.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "iPassGenerator",
+        "url": "https://ipassgenerator.com",
+        "logo": "https://ipassgenerator.com/favicon.svg"
+      },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://ipassgenerator.com/?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "name": "iPassGenerator - Free Online Password Generator Tool",
+      "url": "https://ipassgenerator.com/",
+      "description": "Generate strong, secure passwords instantly with iPassGenerator. Our free online tool creates random, unbreakable passwords with customizable length and complexity options.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "iPassGenerator",
+        "url": "https://ipassgenerator.com"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://ipassgenerator.com/favicon.svg"
+      },
+      "datePublished": "2026-04-27",
+      "dateModified": "2026-04-27"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "name": "iPassGenerator",
+      "url": "https://ipassgenerator.com/",
+      "description": "Free online secure password generator tool that creates strong, random passwords locally in your browser using Web Crypto API.",
+      "applicationCategory": "Utility",
+      "operatingSystem": "All",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "iPassGenerator"
+      },
+      "featureList": [
+        "Customizable password length",
+        "Include/exclude character types",
+        "Local generation for privacy",
+        "Entropy guidance",
+        "Copy to clipboard"
+      ]
+    },
+    {
+      "@type": "Organization",
+      "name": "iPassGenerator",
+      "url": "https://ipassgenerator.com",
+      "logo": "https://ipassgenerator.com/favicon.svg",
+      "description": "Provider of free online password generation tools focused on security and privacy."
+    }
+  ]
+}
+</script>

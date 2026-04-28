@@ -1,0 +1,39 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "name": "iPassGenerator",
+      "url": "https://ipassgenerator.com",
+      "description": "Free online secure password generator tool for creating strong, random passwords with customizable options.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "iPassGenerator",
+        "url": "https://ipassgenerator.com",
+        "logo": "https://ipassgenerator.com/favicon.svg"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "name": "Terms of Service - iPassGenerator Usage Agreement",
+      "url": "https://ipassgenerator.com/terms",
+      "description": "Review the terms and conditions for using iPassGenerator. Understand our service agreement and user guidelines for the password generator tool.",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "iPassGenerator",
+        "url": "https://ipassgenerator.com"
+      },
+      "datePublished": "2026-04-27",
+      "dateModified": "2026-04-27"
+    },
+    {
+      "@type": "Organization",
+      "name": "iPassGenerator",
+      "url": "https://ipassgenerator.com",
+      "logo": "https://ipassgenerator.com/favicon.svg",
+      "description": "Provider of free online password generation tools focused on security and privacy."
+    }
+  ]
+}
+</script>
