@@ -27,38 +27,46 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="application/ld+json">
     {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Organization",
-        "name": "Shoplix",
-        "url": "https://www.shoplix.online/",
-        "logo": "https://www.shoplix.online/logo.png",
-        "sameAs": []
-      },
-      {
-        "@type": "WebSite",
-        "name": "Shoplix",
-        "url": "https://www.shoplix.online/",
-        "potentialAction": {
-          "@type": "SearchAction",
-          "target": "https://www.shoplix.online/search?q={search_term_string}",
-          "query-input": "required name=search_term_string"
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebApplication",
+          "name": "Password Generator Tool",
+          "url": "{{ url()->current() }}",
+          "description": "Generate strong, secure passwords instantly with customizable options and real-time entropy calculation.",
+          "applicationCategory": "UtilityApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript",
+          "featureList": [
+            "Custom password length",
+            "Uppercase, lowercase, numbers, symbols",
+            "Exclude similar and ambiguous characters",
+            "Entropy calculation",
+            "Instant password generation"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "name": "ipassgenerator",
+          "url": "https://www.shoplix.online/",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://www.shoplix.online/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "Organization",
+          "name": "ipassgenerator",
+          "url": "https://www.shoplix.online/",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://www.shoplix.online/logo.png"
+          }
         }
-      },
-      {
-        "@type": "OnlineStore",
-        "name": "Shoplix Online Store",
-        "url": "https://www.shoplix.online/",
-        "description": "Your one-stop destination for smart shopping and unbeatable deals.",
-        "currenciesAccepted": "PKR",
-        "paymentAccepted": "Cash, Credit Card",
-        "priceRange": "$$"
-      }
-    ]
-  }      
-   </script>
-      
+      ]
+    }
+    </script>      
     <script>
       tailwind.config = {
         theme: {
