@@ -1,0 +1,37 @@
+User-agent: *
+Allow: /
+
+# Allow all major search engine bots full access to public content
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: Bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: Slurp
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /login/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Sitemap reference for better SEO crawling
+Sitemap: https://ipassgenerator.online/sitemap.xml
+
+# Note: This allows full indexing of public pages while protecting potential sensitive paths.
+# CSS/JS/images are allowed by default (no Disallow rules blocking them).
