@@ -8,7 +8,7 @@ A fast, secure, and completely free tool to generate strong passwords instantly.
 
 <h2>🌐 Live Website</h2>
 <p>
-👉 <a href="https://www.shoplix.online/" target="_blank">https://www.shoplix.online/</a>
+👉 <a href="https://www.ipassgenerator.online/" target="_blank">https://www.shoplix.online/</a>
 </p>
 
 <hr/>
