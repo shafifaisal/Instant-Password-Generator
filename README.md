@@ -1,4 +1,4 @@
-<h1 align="center">🔐 Shoplix Free Password Generator</h1>
+<h1 align="center">🔐 iPassGenerator Free Password Generator</h1>
 
 <p align="center">
 A fast, secure, and completely free tool to generate strong passwords instantly.
