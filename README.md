@@ -15,7 +15,7 @@ A fast, secure, and completely free tool to generate strong passwords instantly.
 
 <h2>About the Project</h2>
 <p>
-Shoplix Password Generator is a lightweight and user-friendly web tool designed to help users create
+iPassGenerator Password Generator is a lightweight and user-friendly web tool designed to help users create
 strong, secure, and random passwords for their online accounts.
 </p>
 
